@@ -48,8 +48,14 @@ app.use((err, req, res, next) => {
 });
 
 // Listen for incoming connections
-app.listen(PORT, function () {
-  console.info(`Server listening on ${this.address().port}`);
-}).on('error', err => {
-  console.error(err);
-});
+// Listen for incoming connections
+// allow our server to be exportable for mocha to use in testing/ doesnt run when we do launch for testing!
+if (require.main === module) {
+  app.listen(PORT, function () {
+    console.info(`Server listening on ${this.address().port}`);
+  }).on('error', err => {
+    console.error(err);
+  });
+}
+
+module.exports = app; // Export for testing
